@@ -3,13 +3,19 @@ import {
   ApolloLink,
   InMemoryCache,
   createHttpLink,
+  split,
   type NormalizedCacheObject
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
+import { WebSocketLink } from '@apollo/client/link/ws';
+import { getMainDefinition } from '@apollo/client/utilities';
 import { CachePersistor, MMKVWrapper } from 'apollo3-cache-persist';
+
+import { SubscriptionClient } from 'subscriptions-transport-ws';
 import { AppConst } from '../constants';
 import { storage } from '../services';
+import { getToken } from '../utils/utils';
 
 /* Creating a new instance of the InMemoryCache. */
 const cache: InMemoryCache = new InMemoryCache();
@@ -25,19 +31,17 @@ export const persistor: CachePersistor<NormalizedCacheObject> = new CachePersist
 
 export let client: ApolloClient<NormalizedCacheObject>;
 
-const authLink: ApolloLink = setContext(async (_, { headers }) => {
-  // eslint-disable-next-line no-restricted-syntax
-  console.log(`[Headers]: ${headers}`);
-  // TODO: You can add authorization token like below
-  // const state = reduxStore?.store?.getState();
-  // const authToken = state?.auth?.loginData?.access_token;
-  // const token = `Bearer ${authToken}`;
-  // return {
-  //   headers: {
-  //     ...headers,
-  //     authorization: token
-  //   }
-  // };
+let tokenData: any = null;
+const authLink = setContext(async (_, { headers }) => {
+  tokenData = await getToken();
+
+  const token = JSON.parse(tokenData)?.jwt ?? null;
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : ''
+    }
+  };
 });
 
 /**
@@ -60,7 +64,20 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
  */
 export const initApolloClient = (): void => {
   const httpLink: ApolloLink = createHttpLink({ uri: AppConst.apiUrl });
-  const link = ApolloLink.from([errorLink, authLink.concat(httpLink)]);
+  const wsLink = new WebSocketLink(
+    new SubscriptionClient(AppConst.subscriptionUrl ?? '', {
+      reconnect: true
+    })
+  );
+  const splitLink = split(
+    ({ query }) => {
+      const definition = getMainDefinition(query);
+      return definition.kind === 'OperationDefinition' && definition.operation === 'subscription';
+    },
+    wsLink,
+    httpLink
+  );
+  const link = ApolloLink.from([errorLink, authLink.concat(splitLink)]);
   client = new ApolloClient({
     link: link,
     cache: cache,

@@ -51,7 +51,9 @@ function convertUrlToDeepLink(
   params: Record<string, any>
 ): string | undefined {
   if (isDeepLinkType(routeName, params, DeepLink.MagicLink)) {
-    return `samplechatapplication://auth/signIn/${encodeURIComponent(url)}/${params?.tenantId}/${params?.email}`;
+    return `samplechatapplication://auth/signIn/${encodeURIComponent(url)}/${params?.tenantId}/${
+      params?.email
+    }`;
   } else if (isDeepLinkType(routeName, params, DeepLink.ForgotPassword)) {
     return `samplechatapplication://auth/createNewPassword/${params?.oobCode}/${params?.tenantId}/${params?.email}`;
   }

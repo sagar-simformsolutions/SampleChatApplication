@@ -22,7 +22,7 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: 'module',
     jsx: true,
-    tsconfigRootDir: __dirname,
+    tsconfigRootDir: __dirname
   },
   ignorePatterns: ['.eslintrc.js'],
   plugins: [

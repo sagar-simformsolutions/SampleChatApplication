@@ -11,5 +11,6 @@ export default Object.freeze({
   environment: Config.ENVIRONMENT ?? 'dev',
   sentryUrl: Config.SENTRY_URL ?? '',
   apiUrl: Config.API_URL ?? '',
+  subscriptionUrl: Config.SUBSCRIPTION_URL,
   appVersion
 });

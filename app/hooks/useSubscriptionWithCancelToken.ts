@@ -9,7 +9,7 @@ import {
 import { DocumentType, verifyDocumentType } from '@apollo/client/react/parser';
 import { type ObservableSubscription } from '@apollo/client/utilities';
 import { invariant } from '@apollo/client/utilities/globals';
-// eslint-disable-next-line import/no-extraneous-dependencies
+
 import { equal } from '@wry/equality';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
