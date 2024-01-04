@@ -3,7 +3,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import { AppConst, ROUTES } from '../constants';
 import { useTheme } from '../hooks';
-import { DetailsScreen, HomeScreen, SigninScreen } from '../modules';
+import { DetailsScreen, SigninScreen } from '../modules';
+import ChatScreen from '../modules/chat/ChatScreen';
+import ChatListScreen from '../modules/chatList/ChatListScreen';
 import { Colors } from '../theme';
 import { getLinkConfiguration, navigationRef } from '../utils';
 
@@ -22,6 +24,8 @@ type RootStackParamList = {
   [ROUTES.Home]: undefined;
   [ROUTES.Details]: undefined;
   [ROUTES.SignIn]: undefined;
+  [ROUTES.ChatListScreen]: undefined;
+  [ROUTES.ChatScreen]: undefined;
 };
 
 /**
@@ -67,9 +71,10 @@ const AppContainer = () => {
       }}
     >
       <RootStack.Navigator>
-        <RootStack.Screen name={ROUTES.Home} component={HomeScreen} />
         <RootStack.Screen name={ROUTES.SignIn} component={SigninScreen} />
         <RootStack.Screen name={ROUTES.Details} component={DetailsScreen} />
+        <RootStack.Screen name={ROUTES.ChatListScreen} component={ChatListScreen} />
+        <RootStack.Screen name={ROUTES.ChatScreen} component={ChatScreen} />
       </RootStack.Navigator>
     </NavigationContainer>
   );

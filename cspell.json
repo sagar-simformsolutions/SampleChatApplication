@@ -6,27 +6,33 @@
   "language": "en",
   // words - list of words to be always considered correct
   "words": [
+    "Apisauce",
+    "Ashville",
+    "Cochiti",
+    "Creds",
+    "flatlist",
+    "Formik",
+    "Inei",
+    "Itmeo",
+    "Malinka",
+    "MMKV",
+    "Nega",
+    "Pacman",
+    "Palo",
     "persistor",
     "Pressable",
-    "MMKV",
-    "Formik",
-    "reduxjs",
-    "Apisauce",
     "Reactotron",
-    "signin",
-    "Pacman",
-    "Ashville",
-    "Malinka",
-    "Sharpeye",
-    "Itmeo",
-    "Cochiti",
-    "Palo",
+    "reduxjs",
     "Retrowave",
-    "Nega",
-    "Inei"
+    "samplechatapplication",
+    "Sharpeye",
+    "signin",
+    "simform"
   ],
   // flagWords - list of words to be always considered incorrect
   // This is useful for offensive words and common spelling errors.
   // For example "hte" should be "the"
-  "flagWords": ["hte"]
+  "flagWords": [
+    "hte"
+  ]
 }

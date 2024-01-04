@@ -1,9 +1,12 @@
-import React from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { CustomButton } from '../../../../components';
-import { Strings } from '../../../../constants';
-import { useTheme } from '../../../../hooks';
+import { ROUTES, Strings } from '../../../../constants';
+import { LOGIN } from '../../../../graphql';
+import { useMutationWithCancelToken, useTheme } from '../../../../hooks';
 import { Colors } from '../../../../theme';
+import { navigateWithParam } from '../../../../utils';
 import styleSheet from './SigninFormStyles';
 import { isRemainingToFillForm } from './SigninFormUtils';
 import type { SigninFormPropsType } from './SigninFormTypes';
@@ -14,11 +17,9 @@ import type { SigninFormPropsType } from './SigninFormTypes';
  * @returns A sign in form component.
  */
 export default function SigninForm({
-  handleSubmit,
   handleChange,
   values,
-  errors,
-  loading
+  errors
 }: SigninFormPropsType): React.ReactElement {
   const { styles, theme } = useTheme(styleSheet);
   const inputPasswordRef: React.LegacyRef<TextInput> = React.createRef();
@@ -26,11 +27,45 @@ export default function SigninForm({
   const fieldErrorEmail: string | undefined = values.email?.length ?? 0 ? errors.email : '';
   const fieldErrorPassword: string | undefined =
     values.password?.length ?? 0 ? errors.password : '';
+  const [login, { data, loading }] = useMutationWithCancelToken(LOGIN);
+  const [view] = useState('login');
+
+  /**
+   * this function handle auth actions
+   */
+  const handleAuthAction = async () => {
+    if (view === 'login') {
+      login({
+        variables: {
+          email: values?.email,
+          password: values?.password
+        }
+      })
+        .then(() => {})
+        .catch(() => {});
+    }
+  };
+
+  /**
+   * this function handle auth actions login credentials
+   */
+  const handleLoginCreds = async (loginCred: any) => {
+    await AsyncStorage.setItem('loginKey', JSON.stringify(loginCred)).then(() => {
+      navigateWithParam(ROUTES.ChatListScreen);
+    });
+  };
+
+  useEffect(() => {
+    if (data?.login) {
+      handleLoginCreds(data?.login);
+    }
+  }, [data?.login]);
 
   return (
     <View style={styles.formContainer}>
       <TextInput
         autoFocus
+        autoCapitalize="none"
         returnKeyType="next"
         keyboardType="email-address"
         selectionColor={Colors[theme]?.white}
@@ -46,6 +81,7 @@ export default function SigninForm({
       <Text style={styles.errorMsg}>{fieldErrorEmail}</Text>
       <TextInput
         secureTextEntry
+        autoCapitalize="none"
         ref={inputPasswordRef}
         returnKeyType="done"
         keyboardType="default"
@@ -56,7 +92,8 @@ export default function SigninForm({
         style={styles.textInput}
         onChangeText={handleChange('password')}
         onSubmitEditing={() => {
-          handleSubmit();
+          handleAuthAction();
+          // handleSubmit();
         }}
       />
       <Text style={styles.errorMsg}>{fieldErrorPassword}</Text>
@@ -68,7 +105,7 @@ export default function SigninForm({
         disabled={disabled}
         isLoading={loading}
         buttonText={Strings.Auth.btnSignIn}
-        onPress={handleSubmit}
+        onPress={handleAuthAction}
       />
     </View>
   );

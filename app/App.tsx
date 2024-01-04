@@ -1,6 +1,6 @@
-import React, { type FC, useState, useEffect } from 'react';
-import { isNil } from 'lodash';
 import { ApolloProvider } from '@apollo/client';
+import { isNil } from 'lodash';
+import React, { useEffect, useState, type FC } from 'react';
 import { FullScreenLoader } from './components';
 import { client, initApolloClient, persistor } from './configs';
 import { AppContainer } from './navigation';

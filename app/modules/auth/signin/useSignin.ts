@@ -1,8 +1,6 @@
 import { useRoute, type RouteProp } from '@react-navigation/core';
 import { useFormik, type FormikProps } from 'formik';
 import { useEffect } from 'react';
-import { SIGN_IN } from '../../../graphql';
-import { useMutationWithCancelToken } from '../../../hooks';
 import { SigninFormSchema } from '../../../utils';
 import type { SigninFormValues, SigninHookReturnType, SigninRouteParamList } from './SigninTypes';
 /**
@@ -10,7 +8,6 @@ import type { SigninFormValues, SigninHookReturnType, SigninRouteParamList } fro
  * @returns formik props
  */
 export default function useSignin(): SigninHookReturnType {
-  const [signinRequest, { loading }, abort] = useMutationWithCancelToken(SIGN_IN);
   const route = useRoute<RouteProp<SigninRouteParamList, 'Signin'>>();
   /* Creating a formik object that is used to submit the form. */
   const formik: FormikProps<SigninFormValues> = useFormik<SigninFormValues>({
@@ -19,13 +16,13 @@ export default function useSignin(): SigninHookReturnType {
       password: ''
     },
     validationSchema: SigninFormSchema,
-    onSubmit: (values: SigninFormValues) => {
-      signinRequest({
-        variables: {
-          email: values.email,
-          password: values.password
-        }
-      });
+    onSubmit: () => {
+      // signinRequest({
+      //   variables: {
+      //     email: values.email,
+      //     password: values.password
+      //   }
+      // });
     }
   });
 
@@ -36,10 +33,9 @@ export default function useSignin(): SigninHookReturnType {
 
   useEffect(() => {
     return () => {
-      abort();
+      // abort();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return { ...formik, loading };
+  return { ...formik, loading: false };
 }

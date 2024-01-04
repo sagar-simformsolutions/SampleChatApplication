@@ -40,5 +40,6 @@
   },
   "workbench.editor.enablePreview": false,
   "workbench.editor.enablePreviewFromQuickOpen": false,
-  "docwriter.style": "JSDoc"
+  "docwriter.style": "JSDoc",
+  "java.compile.nullAnalysis.mode": "automatic"
 }

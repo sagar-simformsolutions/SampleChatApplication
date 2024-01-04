@@ -6,5 +6,7 @@ export enum ROUTES {
   Home = 'Home',
   Details = 'Details',
   SignIn = 'SignIn',
-  NotFound = 'NotFound'
+  NotFound = 'NotFound',
+  ChatListScreen = 'ChatListScreen',
+  ChatScreen = 'ChatScreen'
 }
