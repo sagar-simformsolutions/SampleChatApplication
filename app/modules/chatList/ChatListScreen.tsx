@@ -1,19 +1,27 @@
 import { useLazyQuery } from '@apollo/client';
-
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useEffect, useState } from 'react';
 import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { ROUTES } from '../../constants';
+import { MMKVKeys, ROUTES } from '../../constants';
 import { GET_CHAT_LIST } from '../../graphql';
+import { getStorageString } from '../../services';
 import { navigateWithParam } from '../../utils';
 import styles from './ChatListScreenStyles';
 
+interface GroupItemTypes {
+  item: { id?: string; name?: string };
+  currentUserData: {
+    user: {
+      id: string;
+    };
+  } | null;
+}
+
 /**
- * A functional component that renders the GroupItem screen.
+ * A functional component that renders the GroupItem component.
  * @returns {React.ReactElement} A function component that returns a view with a text element.
  */
-const GroupItem = ({ item, ...props }: any) => {
+const GroupItem = ({ item, ...props }: GroupItemTypes) => {
   return (
     <TouchableOpacity
       style={styles.messageContainer}
@@ -22,11 +30,6 @@ const GroupItem = ({ item, ...props }: any) => {
           id: item?.id,
           currentUserId: props.currentUserData?.user?.id
         });
-
-        // props?.navigation.navigate('Chat', {
-        //   id: item?.id,
-        //   currentUserId: props.currentUserData?.user?.id
-        // });
       }}
     >
       <View style={styles.innerMessageContainer}>
@@ -36,21 +39,42 @@ const GroupItem = ({ item, ...props }: any) => {
   );
 };
 
+interface GetUser {
+  id?: string;
+  name?: string;
+  item?: {
+    id?: string;
+  };
+}
+
+interface ChatListTypes {
+  getUser: GetUser[] | [];
+}
+
+interface ChatListProps {}
+
+interface UserTypes {
+  user: {
+    id: string;
+  };
+}
+
 /**
  * A functional component that renders the ChatList screen.
  * @returns {React.ReactElement} A function component that returns a view with a text element.
  */
-const ChatList = ({ ...props }: any) => {
-  const [getChatList, { data }] = useLazyQuery(GET_CHAT_LIST);
-  const [currentUserData, setCurrentUserData] = useState(null);
-  const [chatUser, setChatUser] = useState([]);
+const ChatList = ({ ...props }: ChatListProps) => {
+  const [getChatList, { data }] = useLazyQuery<ChatListTypes | undefined>(GET_CHAT_LIST);
+  const [currentUserData, setCurrentUserData] = useState<UserTypes | null>(null);
+  const [chatUser, setChatUser] = useState<GetUser[]>([]);
 
   /**
    * A functional method to handle current user
    */
   const handleCurrentUser = async () => {
-    const user: any = JSON.parse((await AsyncStorage.getItem('loginKey')) ?? '');
-    const filterData = data?.getUser?.filter((item: any) => item?.id !== user?.user?.id);
+    const user: UserTypes = JSON.parse(getStorageString(MMKVKeys.loginDetail, '{}'));
+    const filterData: GetUser[] | undefined =
+      data?.getUser?.filter((item) => item?.id !== user?.user?.id) ?? [];
     setChatUser(filterData);
     setCurrentUserData(user);
   };

@@ -1,4 +1,5 @@
 export default Object.freeze({
   themeMode: 'themeMode',
-  appLanguage: 'app-language'
+  appLanguage: 'app-language',
+  loginDetail: 'loginDetail'
 });
