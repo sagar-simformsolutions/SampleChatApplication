@@ -2,30 +2,47 @@
 import { useSubscription } from '@apollo/client';
 import React, { useEffect, useState } from 'react';
 import { FlatList, SafeAreaView, Text, TextInput, TouchableOpacity, View } from 'react-native';
-// import { CREATE_MESSAGE } from '../graphql/';
-// import { GET_CHAT_MESSAGES } from '../graphql/mutation';
-// import { GET_MESSAGES } from '../graphql/Queries';
-// import { ON_CHAT_UPDATE } from '../graphql/subscription';
-
 import { CREATE_MESSAGE, GET_CHAT_MESSAGES } from '../../graphql';
 import { ON_CHAT_UPDATE } from '../../graphql/subscriptions/ChatSubscriptions';
 import { useMutationWithCancelToken } from '../../hooks';
 import { getToken } from '../../utils/utils';
 import styles from './ChatScreenStyles';
 
+interface ChatScreenProps {
+  route?: {
+    params: {
+      id: string;
+      currentUserId: string;
+    };
+  };
+}
+
+interface Messages {
+  id?: string;
+  content: {
+    message: string;
+    senderId: string;
+  };
+  from: {
+    id: string;
+    username: string;
+  };
+  text: string;
+}
+
 /**
  * A functional component that renders the Chat  screen.
  * @returns {React.ReactElement} A function component that returns a view with a text element.
  */
-const ChatScreen = ({ ...props }: any) => {
-  const [newMessage, setNewMessage] = useState('');
-  const [messages, setMessages] = useState<any>([]);
-  const [currentUserId, setCurrentUserId] = useState(null);
-  const [currentUserName, setCurrentUserName] = useState('');
-  // const [chatId, setChatId] = useState('');
+const ChatScreen = ({ ...props }: ChatScreenProps): React.ReactElement => {
+  const [newMessage, setNewMessage] = useState<string>('');
+  const [messages, setMessages] = useState<Messages[]>([]);
+  const [currentUserId, setCurrentUserId] = useState<string>('');
+  const [currentUserName, setCurrentUserName] = useState<string>('');
+  const [chatId, setChatId] = useState<string>('');
   const [getMessages, { data }] = useMutationWithCancelToken(GET_CHAT_MESSAGES);
   const subscribeData: any = useSubscription(ON_CHAT_UPDATE, {
-    variables: { chatId: 'e6b4b707-3a3c-499f-b522-e1cd74f39075' }
+    variables: { chatId: chatId }
   });
 
   const [createMessage] = useMutationWithCancelToken(CREATE_MESSAGE);
@@ -43,7 +60,7 @@ const ChatScreen = ({ ...props }: any) => {
 
   useEffect(() => {
     const reversedData = data?.getChatId?.message ? data?.getChatId?.message?.reverse() : [];
-    // setChatId(data?.getChatId?.id);
+    setChatId(data?.getChatId?.id);
     setMessages(reversedData);
   }, [data]);
 
