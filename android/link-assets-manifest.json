@@ -1,0 +1,17 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "app/assets/fonts/CreteRound-Italic.ttf",
+      "sha1": "bdb78cb81b74d25002991c382b9fb6ae2271c202"
+    },
+    {
+      "path": "app/assets/fonts/CreteRound-Regular.ttf",
+      "sha1": "7eaa2b92e33348534790eb1a6e7f4e37bbd98710"
+    },
+    {
+      "path": "app/assets/fonts/index.ts",
+      "sha1": "4fa881a00a5428959373c8c2221beeee1138a902"
+    }
+  ]
+}

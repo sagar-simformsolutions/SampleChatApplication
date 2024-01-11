@@ -10,6 +10,7 @@
     "Ashville",
     "Cochiti",
     "Creds",
+    "dont",
     "flatlist",
     "Formik",
     "Fornik",
@@ -28,6 +29,7 @@
     "samplechatapplication",
     "Sharpeye",
     "signin",
+    "signup",
     "simform"
   ],
   // flagWords - list of words to be always considered incorrect
