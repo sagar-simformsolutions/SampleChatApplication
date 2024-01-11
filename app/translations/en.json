@@ -31,8 +31,15 @@
     "digitPasswordError": "One number"
   },
   "auth": {
-    "hintEmail": "Email",
+    "hintEmail": "EMAIL OR USERNAME",
     "hintPassword": "Password",
-    "btnSignIn": "Sign In"
+    "btnSignIn": "Sign In",
+    "rememberMe": "Remember Me",
+    "forgotPassword": "Forgot Password?",
+    "login": "LOGIN",
+    "loginWith": "OR LOGIN WITH",
+    "dontHaveAccount": "Don't Have Account?",
+    "signUp": " Sign Up",
+    "logout": "Log out"
   }
 }

@@ -1,13 +1,14 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { AppConst, ROUTES } from '../constants';
 import { useTheme } from '../hooks';
-import { DetailsScreen, SigninScreen } from '../modules';
+import { SigninScreen } from '../modules';
 import ChatScreen from '../modules/chat/ChatScreen';
 import ChatListScreen from '../modules/chatList/ChatListScreen';
 import { Colors } from '../theme';
 import { getLinkConfiguration, navigationRef } from '../utils';
+import { getToken } from '../utils/utils';
 
 /**
  * The type of the navigation prop for the RootStack.
@@ -23,8 +24,8 @@ type RootStackParamList = {
   // [ROUTES.Profile]: { id: string };
   [ROUTES.Home]: undefined;
   [ROUTES.Details]: undefined;
-  [ROUTES.SignIn]: undefined;
-  [ROUTES.ChatListScreen]: undefined;
+  [ROUTES.SignIn]: { setUser?: any };
+  [ROUTES.ChatListScreen]: { setUser?: any };
   [ROUTES.ChatScreen]: undefined;
 };
 
@@ -50,9 +51,26 @@ function InitializeReactNavigationDevTools(): void {
  */
 const AppContainer = () => {
   const { theme, isDark } = useTheme();
+  const [user, setUser] = useState<Boolean>(false);
   if (AppConst.isDevelopment) {
     InitializeReactNavigationDevTools();
   }
+
+  /**
+   * Function to check whether user is logged in or not
+   */
+  const handleUser = async () => {
+    const rawData = await getToken();
+    const data = JSON.parse(rawData);
+
+    if (data?.user) {
+      setUser(data);
+    }
+  };
+
+  useEffect(() => {
+    handleUser();
+  }, []);
 
   return (
     <NavigationContainer
@@ -71,10 +89,25 @@ const AppContainer = () => {
       }}
     >
       <RootStack.Navigator>
-        <RootStack.Screen name={ROUTES.SignIn} component={SigninScreen} />
-        <RootStack.Screen name={ROUTES.Details} component={DetailsScreen} />
-        <RootStack.Screen name={ROUTES.ChatListScreen} component={ChatListScreen} />
-        <RootStack.Screen name={ROUTES.ChatScreen} component={ChatScreen} />
+        {!user && (
+          <RootStack.Screen
+            name={ROUTES.SignIn}
+            component={SigninScreen}
+            initialParams={{ setUser }}
+            options={{ headerShown: false, headerBackTitleVisible: false }}
+          />
+        )}
+        <RootStack.Screen
+          name={ROUTES.ChatListScreen}
+          component={ChatListScreen}
+          initialParams={{ setUser }}
+          options={{ headerShown: false, headerBackTitleVisible: false }}
+        />
+        <RootStack.Screen
+          name={ROUTES.ChatScreen}
+          component={ChatScreen}
+          options={{ headerBackTitleVisible: false }}
+        />
       </RootStack.Navigator>
     </NavigationContainer>
   );

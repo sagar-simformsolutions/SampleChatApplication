@@ -10,9 +10,9 @@ import type { SigninHookReturnType } from './SigninTypes';
  * The SigninScreen component. It renders a Formik form that renders a SigninForm component
  * @returns A ReactElement.
  */
-export default function SigninScreen(): React.ReactElement {
+export default function SigninScreen({ ...props }): React.ReactElement {
   const { styles } = useTheme(styleSheet);
-  const formik: SigninHookReturnType = useSignin();
+  const formik: SigninHookReturnType = useSignin(props);
 
   return (
     <View style={StyleSheet.flatten([styles.screen, styles.screenView])}>

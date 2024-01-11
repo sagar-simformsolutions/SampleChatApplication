@@ -1,11 +1,11 @@
-import React from 'react';
-import { StyleSheet, Text, TextInput, View } from 'react-native';
-import { CustomButton } from '../../../../components';
+import React, { useState } from 'react';
+import { Alert, Image, Pressable, Switch, Text, TextInput, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Icons } from '../../../../assets';
 import { Strings } from '../../../../constants';
 import { useTheme } from '../../../../hooks';
 import { Colors } from '../../../../theme';
 import styleSheet from './SigninFormStyles';
-import { isRemainingToFillForm } from './SigninFormUtils';
 import type { SigninFormPropsType } from './SigninFormTypes';
 
 /**
@@ -16,62 +16,82 @@ import type { SigninFormPropsType } from './SigninFormTypes';
 export default function SigninForm({
   handleSubmit,
   handleChange,
-  loading,
   values,
   errors
 }: SigninFormPropsType): React.ReactElement {
   const { styles, theme } = useTheme(styleSheet);
   const inputPasswordRef: React.LegacyRef<TextInput> = React.createRef();
-  const disabled: boolean = isRemainingToFillForm(values, errors);
   const fieldErrorEmail: string | undefined = values.email?.length ?? 0 ? errors.email : '';
   const fieldErrorPassword: string | undefined =
     values.password?.length ?? 0 ? errors.password : '';
+  const [click, setClick] = useState(false);
 
   return (
-    <View style={styles.formContainer}>
-      <TextInput
-        autoFocus
-        autoCapitalize="none"
-        returnKeyType="next"
-        keyboardType="email-address"
-        selectionColor={Colors[theme]?.white}
-        placeholderTextColor={Colors[theme]?.white}
-        underlineColorAndroid="transparent"
-        placeholder={Strings.Auth.hintEmail}
-        style={styles.textInput}
-        onChangeText={handleChange('email')}
-        onSubmitEditing={() => {
-          inputPasswordRef.current?.focus();
-        }}
-      />
-      <Text style={styles.errorMsg}>{fieldErrorEmail}</Text>
-      <TextInput
-        secureTextEntry
-        autoCapitalize="none"
-        ref={inputPasswordRef}
-        returnKeyType="done"
-        keyboardType="default"
-        selectionColor={Colors[theme]?.white}
-        placeholderTextColor={Colors[theme]?.white}
-        underlineColorAndroid="transparent"
-        placeholder={Strings.Auth.hintPassword}
-        style={styles.textInput}
-        onChangeText={handleChange('password')}
-        onSubmitEditing={() => {
-          handleSubmit();
-        }}
-      />
-      <Text style={styles.errorMsg}>{fieldErrorPassword}</Text>
-      <CustomButton
-        buttonContainer={StyleSheet.flatten([styles.buttonContainer, styles.buttonTopMargin])}
-        buttonStyle={StyleSheet.flatten([styles.spinnerButton, styles.button])}
-        disableStyle={styles.disabledButton}
-        loaderColor={Colors[theme]?.white}
-        disabled={disabled}
-        isLoading={loading}
-        buttonText={Strings.Auth.btnSignIn}
-        onPress={handleSubmit}
-      />
-    </View>
+    <SafeAreaView style={styles.container}>
+      {/* <Image source={logo} style={styles.image} resizeMode="contain" /> */}
+      <Text style={styles.title}>{Strings.Auth.login}</Text>
+      <View style={styles.inputView}>
+        <TextInput
+          autoFocus
+          autoCapitalize="none"
+          returnKeyType="next"
+          keyboardType="email-address"
+          selectionColor={Colors[theme]?.white}
+          underlineColorAndroid="transparent"
+          placeholder={Strings.Auth.hintEmail}
+          style={styles.input}
+          onChangeText={handleChange('email')}
+          onSubmitEditing={() => {
+            inputPasswordRef.current?.focus();
+          }}
+        />
+        {fieldErrorEmail && <Text style={styles.errorMsg}>{fieldErrorEmail}</Text>}
+        <TextInput
+          secureTextEntry
+          autoCapitalize="none"
+          ref={inputPasswordRef}
+          returnKeyType="done"
+          keyboardType="default"
+          selectionColor={Colors[theme]?.white}
+          underlineColorAndroid="transparent"
+          placeholder={Strings.Auth.hintPassword}
+          style={styles.input}
+          onChangeText={handleChange('password')}
+          onSubmitEditing={() => {
+            handleSubmit();
+          }}
+        />
+        {fieldErrorPassword && <Text style={styles.errorMsg}>{fieldErrorPassword}</Text>}
+      </View>
+      <View style={styles.rememberView}>
+        <View style={styles.switch}>
+          <Switch
+            value={click}
+            trackColor={{ true: 'green', false: 'gray' }}
+            onValueChange={setClick}
+          />
+          <Text style={styles.rememberText}>{Strings.Auth.rememberMe}</Text>
+        </View>
+        <View>
+          <Pressable onPress={() => Alert.alert('Forget Password!')}>
+            <Text style={styles.forgetText}>{Strings.Auth.forgotPassword}</Text>
+          </Pressable>
+        </View>
+      </View>
+      <View style={styles.buttonView}>
+        <Pressable style={styles.button} onPress={() => handleSubmit()}>
+          <Text style={styles.buttonText}>{Strings.Auth.login}</Text>
+        </Pressable>
+        <Text style={styles.optionsText}>{Strings.Auth.loginWith}</Text>
+      </View>
+      <View style={styles.mediaIcons}>
+        <Image source={Icons.facebook} style={styles.icons} />
+        <Image source={Icons.linkedIn} style={styles.icons} />
+      </View>
+      <Text style={styles.footerText}>
+        {Strings.Auth.dontHaveAccount}
+        <Text style={styles.signup}>{Strings.Auth.signUp}</Text>
+      </Text>
+    </SafeAreaView>
   );
 }

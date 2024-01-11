@@ -2,11 +2,11 @@ import { useRoute, type RouteProp } from '@react-navigation/core';
 import { instanceToPlain } from 'class-transformer';
 import { useFormik, type FormikProps } from 'formik';
 import { useEffect, useState } from 'react';
-import { MMKVKeys, ROUTES } from '../../../constants';
+import { MMKVKeys } from '../../../constants';
 import { LOGIN } from '../../../graphql';
 import { useMutationWithCancelToken } from '../../../hooks';
 import { setStorageString } from '../../../services';
-import { SigninFormSchema, navigateWithParam } from '../../../utils';
+import { SigninFormSchema } from '../../../utils';
 import type { SigninFormValues, SigninHookReturnType, SigninRouteParamList } from './SigninTypes';
 
 interface LoginVariables {
@@ -18,7 +18,7 @@ interface LoginVariables {
  * Hook that returns the ref to the sign in form and the function to submit the form.
  * @returns formik props
  */
-export default function useSignin(): SigninHookReturnType {
+export default function useSignin({ ...props }): SigninHookReturnType {
   const route = useRoute<RouteProp<SigninRouteParamList, 'Signin'>>();
   const [login, { data, loading }] = useMutationWithCancelToken<LoginPayloadData, LoginVariables>(
     LOGIN
@@ -57,7 +57,7 @@ export default function useSignin(): SigninHookReturnType {
    */
   const handleLoginCreds = async (loginCred: LoginCred) => {
     await setStorageString(MMKVKeys.loginDetail, JSON.stringify(instanceToPlain(loginCred)));
-    await navigateWithParam(ROUTES.ChatListScreen);
+    props.route?.params?.setUser(loginCred);
   };
 
   useEffect(() => {

@@ -1,10 +1,10 @@
-import { useLazyQuery } from '@apollo/client';
 import React, { useEffect, useState } from 'react';
-import { FlatList, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { MMKVKeys, ROUTES } from '../../constants';
+import { MMKVKeys, ROUTES, Strings } from '../../constants';
 import { GET_CHAT_LIST } from '../../graphql';
-import { getStorageString } from '../../services';
+import { useLazyQueryWithCancelToken } from '../../hooks';
+import { getStorageString, storage } from '../../services';
 import { navigateWithParam } from '../../utils';
 import styles from './ChatListScreenStyles';
 
@@ -13,6 +13,7 @@ interface GroupItemTypes {
   currentUserData: {
     user: {
       id: string;
+      name?: string;
     };
   } | null;
 }
@@ -28,12 +29,21 @@ const GroupItem = ({ item, ...props }: GroupItemTypes) => {
       onPress={() => {
         navigateWithParam(ROUTES.ChatScreen, {
           id: item?.id,
-          currentUserId: props.currentUserData?.user?.id
+          currentUserId: props.currentUserData?.user?.id,
+          chatNamePerson: item
         });
       }}
     >
       <View style={styles.innerMessageContainer}>
-        <Text>{item?.name}</Text>
+        <View style={styles.profilePicParent}>
+          <Image
+            source={{
+              uri: 'https://www.rattanhospital.in/wp-content/uploads/2020/03/user-dummy-pic.png'
+            }}
+            style={styles.userProfileImage}
+          />
+        </View>
+        <Text style={styles.userName}>{item?.name}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -51,7 +61,9 @@ interface ChatListTypes {
   getUser: GetUser[] | [];
 }
 
-interface ChatListProps {}
+interface ChatListProps {
+  route?: { params?: { setUser?: Function } };
+}
 
 interface UserTypes {
   user: {
@@ -64,7 +76,15 @@ interface UserTypes {
  * @returns {React.ReactElement} A function component that returns a view with a text element.
  */
 const ChatList = ({ ...props }: ChatListProps) => {
-  const [getChatList, { data }] = useLazyQuery<ChatListTypes | undefined>(GET_CHAT_LIST);
+  const { setUser = () => {} } = props.route?.params ?? {};
+
+  const [getChatList, { data }] = useLazyQueryWithCancelToken<ChatListTypes | undefined>(
+    GET_CHAT_LIST,
+    {
+      fetchPolicy: 'no-cache'
+    }
+  );
+
   const [currentUserData, setCurrentUserData] = useState<UserTypes | null>(null);
   const [chatUser, setChatUser] = useState<GetUser[]>([]);
 
@@ -89,10 +109,20 @@ const ChatList = ({ ...props }: ChatListProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
+  /**
+   *  function to handle logout
+   *
+   */
+  const handleLogout = async () => {
+    await storage.clearAll();
+    await setUser?.(false);
+    navigateWithParam(ROUTES.SignIn);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Text>Chats </Text>
+        <Text style={styles.headerTextStyle}>Messages</Text>
       </View>
       <FlatList
         data={chatUser}
@@ -100,6 +130,12 @@ const ChatList = ({ ...props }: ChatListProps) => {
           return <GroupItem item={item} currentUserData={currentUserData} {...props} />;
         }}
       />
+
+      <View style={styles.logoutContainer}>
+        <TouchableOpacity style={styles.buttonContainer} onPress={handleLogout}>
+          <Text style={styles.logoutText}>{Strings.Auth.logout}</Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 };

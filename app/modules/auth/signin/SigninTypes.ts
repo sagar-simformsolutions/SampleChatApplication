@@ -25,4 +25,5 @@ export interface SigninFormValues {
 
 export interface SigninHookReturnType extends FormikProps<SigninFormValues> {
   loading: boolean;
+  route?: { params?: { setUser?: Function } };
 }

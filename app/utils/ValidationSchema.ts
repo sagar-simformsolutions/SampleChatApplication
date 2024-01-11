@@ -12,7 +12,6 @@ export const SigninFormSchema = Yup.object().shape({
   password: Yup.string()
     .required(Strings.YupError.requirePasswordError)
     .min(8, Strings.YupError.lengthPasswordError)
-    .matches(/[a-z]+/, Strings.YupError.lowercasePasswordError)
     .matches(/[A-Z]+/, Strings.YupError.uppercasePasswordError)
     .matches(/[@$!%*#?&]+/, Strings.YupError.specialPasswordError)
     .matches(/\d+/, Strings.YupError.digitPasswordError)
