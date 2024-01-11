@@ -47,7 +47,14 @@ const Details: Record<string, string> = Object.freeze({
 const Auth: Record<string, string> = Object.freeze({
   hintEmail: I18n.t('auth:hintEmail'),
   hintPassword: I18n.t('auth:hintPassword'),
-  btnSignIn: I18n.t('auth:btnSignIn')
+  btnSignIn: I18n.t('auth:btnSignIn'),
+  rememberMe: I18n.t('auth:rememberMe'),
+  forgotPassword: I18n.t('auth:forgotPassword'),
+  login: I18n.t('auth:login'),
+  loginWith: I18n.t('auth:loginWith'),
+  dontHaveAccount: I18n.t('auth:dontHaveAccount'),
+  signUp: I18n.t('auth:signUp'),
+  logout: I18n.t('auth:logout')
 });
 
 /**

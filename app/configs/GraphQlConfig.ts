@@ -84,7 +84,15 @@ export const initApolloClient = (): void => {
     connectToDevTools: AppConst.isDevelopment,
     name: 'SampleChatApplicationGraphqlClient',
     version: '1.0',
-    queryDeduplication: false
+    queryDeduplication: false,
+    defaultOptions: {
+      query: {
+        fetchPolicy: 'no-cache'
+      },
+      mutate: {
+        fetchPolicy: 'no-cache'
+      }
+    }
   });
 };
 

@@ -10,7 +10,7 @@ export default Object.freeze({
   isDevelopment: __DEV__ || (Config.ENVIRONMENT ?? 'dev') === 'dev',
   environment: Config.ENVIRONMENT ?? 'dev',
   sentryUrl: Config.SENTRY_URL ?? '',
-  apiUrl: Config.API_URL ?? '',
-  subscriptionUrl: Config.SUBSCRIPTION_URL,
+  apiUrl: 'http://localhost:4000/',
+  subscriptionUrl: 'ws://localhost:4000/graphql',
   appVersion
 });
