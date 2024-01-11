@@ -12,7 +12,9 @@ const themeColors: Record<string, string> = {
   lightBlue: '#3787FC',
   red: '#DD2C2C',
   darkBlue: '#374dfc',
-  transparent: 'transparent'
+  transparent: 'transparent',
+  green: '#61c5c6d9',
+  greenSelected: '#619DA0 '
 };
 
 /**
@@ -23,7 +25,8 @@ const commonColors: Record<string, string> = {
   white: '#FFFFFF',
   black: '#000000',
   transparentBlack: '#00000000',
-  transparentWhite: '#FFFFFF00'
+  transparentWhite: '#FFFFFF00',
+  red: '#D22B2B'
 };
 
 /**
@@ -35,7 +38,8 @@ const light: Record<string, string> = {
   black: commonColors.black,
   white: commonColors.white,
   transparentWhite: commonColors.transparentWhite,
-  transparentBlack: commonColors.transparentBlack
+  transparentBlack: commonColors.transparentBlack,
+  red: commonColors.red
 };
 
 /**

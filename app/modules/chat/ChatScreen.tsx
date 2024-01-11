@@ -13,7 +13,13 @@ interface ChatScreenProps {
     params: {
       id: string;
       currentUserId: string;
+      chatNamePerson?: {
+        name: string;
+      };
     };
+  };
+  navigation?: {
+    setOptions: Function;
   };
 }
 
@@ -65,14 +71,16 @@ const ChatScreen = ({ ...props }: ChatScreenProps): React.ReactElement => {
   }, [data]);
 
   useEffect(() => {
-    setMessages([
-      {
-        content: subscribeData?.data?.newMessage?.content,
-        from: subscribeData?.data?.newMessage?.from,
-        text: subscribeData?.data?.newMessage?.content?.message
-      },
-      ...messages
-    ]);
+    if (subscribeData?.data?.newMessage?.content?.senderId !== currentUserId) {
+      setMessages([
+        {
+          content: subscribeData?.data?.newMessage?.content,
+          from: subscribeData?.data?.newMessage?.from,
+          text: subscribeData?.data?.newMessage?.content?.message
+        },
+        ...messages
+      ]);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [subscribeData?.data]);
 
@@ -93,25 +101,27 @@ const ChatScreen = ({ ...props }: ChatScreenProps): React.ReactElement => {
       }
     });
 
-    setMessages(
-      [
-        ...messages,
-        {
-          content: {
-            message: newMessage,
-            senderId: currentUserId
-          },
-          from: { id: currentUserId, username: currentUserName },
-          text: newMessage
-        }
-      ]?.reverse()
-    );
+    setMessages([
+      {
+        content: {
+          message: newMessage,
+          senderId: currentUserId
+        },
+        from: { id: currentUserId, username: currentUserName },
+        text: newMessage
+      },
+      ...messages
+    ]);
     setNewMessage('');
   };
 
   useEffect(() => {
     const sendChatUserId = props?.route?.params?.id;
     const currentUserIdParams = props?.route?.params?.currentUserId;
+
+    props?.navigation?.setOptions({
+      title: props?.route?.params?.chatNamePerson?.name
+    });
     handleGetUser();
     getMessages({
       variables: {
