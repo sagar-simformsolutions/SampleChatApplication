@@ -40,6 +40,11 @@ const Home: Record<string, string> = Object.freeze({
   darkTheme: I18n.t('home:darkTheme')
 });
 
+const Chat: Record<string, string> = Object.freeze({
+  send: I18n.t('chat:send'),
+  messages: I18n.t('chat:messages')
+});
+
 const Details: Record<string, string> = Object.freeze({
   detailsScreenTitle: I18n.t('details:title')
 });
@@ -68,5 +73,6 @@ export default Object.freeze({
   YupError,
   Home,
   Details,
-  Auth
+  Auth,
+  Chat
 });

@@ -1,10 +1,12 @@
 /* eslint-disable react-native/no-inline-styles */
 import { useSubscription } from '@apollo/client';
 import React, { useEffect, useState } from 'react';
-import { FlatList, SafeAreaView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { FlatList, KeyboardAvoidingView, Platform, SafeAreaView, Text, View } from 'react-native';
+import { ChatTextInput } from '../../components/chat-text-input';
 import { CREATE_MESSAGE, GET_CHAT_MESSAGES } from '../../graphql';
 import { ON_CHAT_UPDATE } from '../../graphql/subscriptions/ChatSubscriptions';
 import { useMutationWithCancelToken } from '../../hooks';
+import { moderateScale } from '../../theme';
 import { getToken } from '../../utils/utils';
 import styles from './ChatScreenStyles';
 
@@ -159,25 +161,25 @@ const ChatScreen = ({ ...props }: ChatScreenProps): React.ReactElement => {
 
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
-      <View style={styles.flatlistParent}>
-        <FlatList
-          inverted // To display the latest message at the bottom
-          data={messages ?? []}
-          renderItem={renderItem}
-          keyExtractor={(item, index) => item?.id?.toString() ?? `${index}`}
-        />
-        <View style={{ flexDirection: 'row', alignItems: 'center', padding: 8 }}>
-          <TextInput
-            style={styles.textInputMessage}
-            placeholder="Type a message..."
-            value={newMessage}
-            onChangeText={(text) => setNewMessage(text)}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={moderateScale(100)}
+        style={styles.keyboardAvoidingContainer}
+      >
+        <View style={styles.flatlistParent}>
+          <FlatList
+            inverted // To display the latest message at the bottom
+            data={messages ?? []}
+            renderItem={renderItem}
+            keyExtractor={(item, index) => item?.id?.toString() ?? `${index}`}
           />
-          <TouchableOpacity style={styles.sendButton} onPress={handleSend}>
-            <Text style={styles.sendText}>Send</Text>
-          </TouchableOpacity>
+          <ChatTextInput
+            newMessage={newMessage}
+            setNewMessage={setNewMessage}
+            handleSend={handleSend}
+          />
         </View>
-      </View>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };

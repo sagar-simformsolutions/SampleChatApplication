@@ -39,7 +39,10 @@ const light: Record<string, string> = {
   white: commonColors.white,
   transparentWhite: commonColors.transparentWhite,
   transparentBlack: commonColors.transparentBlack,
-  red: commonColors.red
+  red: commonColors.red,
+  pearlBush: '#ece5dd',
+  pictonBlue: '#34b7f1',
+  gossip: '#DCF8C6'
 };
 
 /**
