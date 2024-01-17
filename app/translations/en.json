@@ -41,5 +41,9 @@
     "dontHaveAccount": "Don't Have Account?",
     "signUp": " Sign Up",
     "logout": "Log out"
+  },
+  "chat": {
+    "send": "Send",
+    "messages": "Messages"
   }
 }

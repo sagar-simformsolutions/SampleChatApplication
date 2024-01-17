@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, Image, RefreshControl, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MMKVKeys, ROUTES, Strings } from '../../constants';
 import { GET_CHAT_LIST } from '../../graphql';
@@ -78,7 +78,7 @@ interface UserTypes {
 const ChatList = ({ ...props }: ChatListProps) => {
   const { setUser = () => {} } = props.route?.params ?? {};
 
-  const [getChatList, { data }] = useLazyQueryWithCancelToken<ChatListTypes | undefined>(
+  const [getChatList, { data, refetch }] = useLazyQueryWithCancelToken<ChatListTypes | undefined>(
     GET_CHAT_LIST,
     {
       fetchPolicy: 'no-cache'
@@ -87,6 +87,7 @@ const ChatList = ({ ...props }: ChatListProps) => {
 
   const [currentUserData, setCurrentUserData] = useState<UserTypes | null>(null);
   const [chatUser, setChatUser] = useState<GetUser[]>([]);
+  const [refreshing, setRefreshing] = useState(false);
 
   /**
    * A functional method to handle current user
@@ -119,16 +120,35 @@ const ChatList = ({ ...props }: ChatListProps) => {
     navigateWithParam(ROUTES.SignIn);
   };
 
+  /**
+   * This function uses to refresh chat list screen
+   * */
+  const onRefresh = () => {
+    setRefreshing(true); // Set refreshing to true when the user pulls to refresh
+    refetch();
+    setRefreshing(false);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerTextStyle}>Messages</Text>
+        <Text style={styles.headerTextStyle}>{Strings.Chat.messages}</Text>
       </View>
       <FlatList
         data={chatUser}
         renderItem={({ item }) => {
           return <GroupItem item={item} currentUserData={currentUserData} {...props} />;
         }}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            colors={['#1e90ff']}
+            // Optional: Customize the color of the refresh indicator
+            progressBackgroundColor="#fff"
+            // Optional: Set the background color of the refresh indicator
+            onRefresh={onRefresh}
+          />
+        }
       />
 
       <View style={styles.logoutContainer}>

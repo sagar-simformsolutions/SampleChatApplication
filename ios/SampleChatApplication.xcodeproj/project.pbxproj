@@ -16,11 +16,11 @@
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* SampleChatApplicationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* SampleChatApplicationTests.m */; };
-		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		FDE8342AE50F6EDB62CC6CAC /* libPods-SampleChatApplication.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 126779996907E6FB550E00DC /* libPods-SampleChatApplication.a */; };
 		51310EAE7649492E97F05090 /* CreteRound-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FF69A66B866348D4812781D3 /* CreteRound-Italic.ttf */; };
-		D26A0159AC3F4E74B0184CFF /* CreteRound-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6D196F855C7748DA8D4DC0C5 /* CreteRound-Regular.ttf */; };
+		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		A8CF7B85FD634099B00DA845 /* index.ts in Resources */ = {isa = PBXBuildFile; fileRef = 3E7A78B7D38B449E86227EFD /* index.ts */; };
+		D26A0159AC3F4E74B0184CFF /* CreteRound-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6D196F855C7748DA8D4DC0C5 /* CreteRound-Regular.ttf */; };
+		FDE8342AE50F6EDB62CC6CAC /* libPods-SampleChatApplication.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 126779996907E6FB550E00DC /* libPods-SampleChatApplication.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,16 +56,16 @@
 		2D02E47B1E0B4A5D006451C7 /* SampleChatApplication-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SampleChatApplication-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* SampleChatApplication-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SampleChatApplication-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		36BEED7C76B133F4C6EDB176 /* libPods-SampleChatApplication-SampleChatApplicationTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SampleChatApplication-SampleChatApplicationTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3E7A78B7D38B449E86227EFD /* index.ts */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = index.ts; path = ../app/assets/fonts/index.ts; sourceTree = "<group>"; };
 		4379E76001C8EA85A14423EE /* Pods-SampleChatApplication-SampleChatApplicationTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SampleChatApplication-SampleChatApplicationTests.release.xcconfig"; path = "Target Support Files/Pods-SampleChatApplication-SampleChatApplicationTests/Pods-SampleChatApplication-SampleChatApplicationTests.release.xcconfig"; sourceTree = "<group>"; };
 		5309067773244EDCCD434683 /* Pods-SampleChatApplication-SampleChatApplicationTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SampleChatApplication-SampleChatApplicationTests.debug.xcconfig"; path = "Target Support Files/Pods-SampleChatApplication-SampleChatApplicationTests/Pods-SampleChatApplication-SampleChatApplicationTests.debug.xcconfig"; sourceTree = "<group>"; };
+		6D196F855C7748DA8D4DC0C5 /* CreteRound-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "CreteRound-Regular.ttf"; path = "../app/assets/fonts/CreteRound-Regular.ttf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = SampleChatApplication/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B7D4CF4A67A14AD8DD13983E /* Pods-SampleChatApplication.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SampleChatApplication.debug.xcconfig"; path = "Target Support Files/Pods-SampleChatApplication/Pods-SampleChatApplication.debug.xcconfig"; sourceTree = "<group>"; };
 		D671084829012EA000E17C87 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
-		FF69A66B866348D4812781D3 /* CreteRound-Italic.ttf */ = {isa = PBXFileReference; name = "CreteRound-Italic.ttf"; path = "../app/assets/fonts/CreteRound-Italic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		6D196F855C7748DA8D4DC0C5 /* CreteRound-Regular.ttf */ = {isa = PBXFileReference; name = "CreteRound-Regular.ttf"; path = "../app/assets/fonts/CreteRound-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		3E7A78B7D38B449E86227EFD /* index.ts */ = {isa = PBXFileReference; name = "index.ts"; path = "../app/assets/fonts/index.ts"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		FF69A66B866348D4812781D3 /* CreteRound-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "CreteRound-Italic.ttf"; path = "../app/assets/fonts/CreteRound-Italic.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +133,17 @@
 			name = SampleChatApplication;
 			sourceTree = "<group>";
 		};
+		1AB8A7E741254E70A37C16C0 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				FF69A66B866348D4812781D3 /* CreteRound-Italic.ttf */,
+				6D196F855C7748DA8D4DC0C5 /* CreteRound-Regular.ttf */,
+				3E7A78B7D38B449E86227EFD /* index.ts */,
+			);
+			name = Resources;
+			path = "";
+			sourceTree = "<group>";
+		};
 		1B76D0EE8D7CCE0873366C6C /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -189,17 +200,6 @@
 			);
 			name = Products;
 			sourceTree = "<group>";
-		};
-		1AB8A7E741254E70A37C16C0 /* Resources */ = {
-			isa = "PBXGroup";
-			children = (
-				FF69A66B866348D4812781D3 /* CreteRound-Italic.ttf */,
-				6D196F855C7748DA8D4DC0C5 /* CreteRound-Regular.ttf */,
-				3E7A78B7D38B449E86227EFD /* index.ts */,
-			);
-			name = Resources;
-			sourceTree = "<group>";
-			path = "";
 		};
 /* End PBXGroup section */
 
