@@ -2,7 +2,8 @@ import { useRoute, type RouteProp } from '@react-navigation/core';
 import { instanceToPlain } from 'class-transformer';
 import { useFormik, type FormikProps } from 'formik';
 import { useEffect, useState } from 'react';
-import { MMKVKeys } from '../../../constants';
+import Toast from 'react-native-toast-message';
+import { MMKVKeys, Strings } from '../../../constants';
 import { LOGIN } from '../../../graphql';
 import { useMutationWithCancelToken } from '../../../hooks';
 import { setStorageString } from '../../../services';
@@ -20,9 +21,10 @@ interface LoginVariables {
  */
 export default function useSignin({ ...props }): SigninHookReturnType {
   const route = useRoute<RouteProp<SigninRouteParamList, 'Signin'>>();
-  const [login, { data, loading }] = useMutationWithCancelToken<LoginPayloadData, LoginVariables>(
-    LOGIN
-  );
+  const [login, { data, loading, error }] = useMutationWithCancelToken<
+    LoginPayloadData,
+    LoginVariables
+  >(LOGIN);
   const [view] = useState('login');
 
   interface FornikValues {
@@ -75,6 +77,15 @@ export default function useSignin({ ...props }): SigninHookReturnType {
     validationSchema: SigninFormSchema,
     onSubmit: (values) => handleAuthAction(values)
   });
+
+  useEffect(() => {
+    error &&
+      Toast.show({
+        type: 'error',
+        text1: Strings.Chat.networkError,
+        text2: error?.message
+      });
+  }, [error]);
 
   useEffect(() => {
     formik?.setFieldValue('email', route.params?.email);

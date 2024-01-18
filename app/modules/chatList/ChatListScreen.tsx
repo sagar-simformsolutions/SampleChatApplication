@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FlatList, Image, RefreshControl, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import Toast from 'react-native-toast-message';
 import { MMKVKeys, ROUTES, Strings } from '../../constants';
 import { GET_CHAT_LIST } from '../../graphql';
 import { useLazyQueryWithCancelToken } from '../../hooks';
@@ -78,12 +79,11 @@ interface UserTypes {
 const ChatList = ({ ...props }: ChatListProps) => {
   const { setUser = () => {} } = props.route?.params ?? {};
 
-  const [getChatList, { data, refetch }] = useLazyQueryWithCancelToken<ChatListTypes | undefined>(
-    GET_CHAT_LIST,
-    {
-      fetchPolicy: 'no-cache'
-    }
-  );
+  const [getChatList, { data, refetch, error }] = useLazyQueryWithCancelToken<
+    ChatListTypes | undefined
+  >(GET_CHAT_LIST, {
+    fetchPolicy: 'no-cache'
+  });
 
   const [currentUserData, setCurrentUserData] = useState<UserTypes | null>(null);
   const [chatUser, setChatUser] = useState<GetUser[]>([]);
@@ -128,6 +128,15 @@ const ChatList = ({ ...props }: ChatListProps) => {
     refetch();
     setRefreshing(false);
   };
+
+  useEffect(() => {
+    error &&
+      Toast.show({
+        type: 'error',
+        text1: Strings.Chat.networkError,
+        text2: error?.message
+      });
+  }, [error]);
 
   return (
     <SafeAreaView style={styles.container}>

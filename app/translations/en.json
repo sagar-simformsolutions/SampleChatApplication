@@ -44,6 +44,7 @@
   },
   "chat": {
     "send": "Send",
-    "messages": "Messages"
+    "messages": "Messages",
+    "networkError": "Network Error"
   }
 }
