@@ -3,22 +3,39 @@ import {
   ApolloLink,
   InMemoryCache,
   createHttpLink,
+  gql,
   split,
   type NormalizedCacheObject
 } from '@apollo/client';
+import { createFragmentRegistry } from '@apollo/client/cache';
 import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
 import { WebSocketLink } from '@apollo/client/link/ws';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { CachePersistor, MMKVWrapper } from 'apollo3-cache-persist';
-
 import { SubscriptionClient } from 'subscriptions-transport-ws';
 import { AppConst } from '../constants';
 import { storage } from '../services';
 import { getToken } from '../utils/utils';
 
 /* Creating a new instance of the InMemoryCache. */
-const cache: InMemoryCache = new InMemoryCache();
+const cache: InMemoryCache = new InMemoryCache({
+  fragments: createFragmentRegistry(
+    gql`
+      fragment ContentFields on ContentReturn {
+        message
+        senderId
+      }
+    `,
+    gql`
+      fragment UserField on User {
+        id
+        name
+        email
+      }
+    `
+  )
+});
 
 /* Creating a new instance of the CachePersistor. */
 export const persistor: CachePersistor<NormalizedCacheObject> = new CachePersistor({
