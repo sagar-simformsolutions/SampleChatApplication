@@ -42,7 +42,8 @@ const Home: Record<string, string> = Object.freeze({
 
 const Chat: Record<string, string> = Object.freeze({
   send: I18n.t('chat:send'),
-  messages: I18n.t('chat:messages')
+  messages: I18n.t('chat:messages'),
+  networkError: I18n.t('chat:networkError')
 });
 
 const Details: Record<string, string> = Object.freeze({

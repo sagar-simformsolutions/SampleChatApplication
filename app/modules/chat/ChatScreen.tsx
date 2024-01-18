@@ -2,7 +2,9 @@
 import { useSubscription } from '@apollo/client';
 import React, { useEffect, useState } from 'react';
 import { FlatList, KeyboardAvoidingView, Platform, SafeAreaView, Text, View } from 'react-native';
+import Toast from 'react-native-toast-message';
 import { ChatTextInput } from '../../components/chat-text-input';
+import { Strings } from '../../constants';
 import { CREATE_MESSAGE, GET_CHAT_MESSAGES } from '../../graphql';
 import { ON_CHAT_UPDATE } from '../../graphql/subscriptions/ChatSubscriptions';
 import { useMutationWithCancelToken } from '../../hooks';
@@ -53,7 +55,16 @@ const ChatScreen = ({ ...props }: ChatScreenProps): React.ReactElement => {
     variables: { chatId: chatId }
   });
 
-  const [createMessage] = useMutationWithCancelToken(CREATE_MESSAGE);
+  const [createMessage, { error }] = useMutationWithCancelToken(CREATE_MESSAGE);
+
+  useEffect(() => {
+    error &&
+      Toast.show({
+        type: 'error',
+        text1: Strings.Chat.networkError,
+        text2: error?.message
+      });
+  }, [error]);
 
   /**
    * Function returns user details

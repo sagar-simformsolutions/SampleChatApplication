@@ -1,6 +1,7 @@
 import { ApolloProvider } from '@apollo/client';
 import { isNil } from 'lodash';
 import React, { useEffect, useState, type FC } from 'react';
+import Toast from 'react-native-toast-message';
 import { FullScreenLoader } from './components';
 import { client, initApolloClient, persistor } from './configs';
 import { AppContainer } from './navigation';
@@ -27,6 +28,7 @@ const App: FC = () => {
   return (
     <ApolloProvider client={client}>
       <AppContainer />
+      <Toast />
     </ApolloProvider>
   );
 };

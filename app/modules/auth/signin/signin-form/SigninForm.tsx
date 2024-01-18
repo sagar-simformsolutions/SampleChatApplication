@@ -19,7 +19,7 @@ export default function SigninForm({
   values,
   errors
 }: SigninFormPropsType): React.ReactElement {
-  const { styles, theme } = useTheme(styleSheet);
+  const { styles } = useTheme(styleSheet);
   const inputPasswordRef: React.LegacyRef<TextInput> = React.createRef();
   const fieldErrorEmail: string | undefined = values.email?.length ?? 0 ? errors.email : '';
   const fieldErrorPassword: string | undefined =
@@ -28,15 +28,15 @@ export default function SigninForm({
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* <Image source={logo} style={styles.image} resizeMode="contain" /> */}
       <Text style={styles.title}>{Strings.Auth.login}</Text>
       <View style={styles.inputView}>
         <TextInput
           autoFocus
+          cursorColor={Colors?.light?.green}
           autoCapitalize="none"
           returnKeyType="next"
           keyboardType="email-address"
-          selectionColor={Colors[theme]?.white}
+          selectionColor={Colors?.light?.green}
           underlineColorAndroid="transparent"
           placeholder={Strings.Auth.hintEmail}
           style={styles.input}
@@ -52,7 +52,8 @@ export default function SigninForm({
           ref={inputPasswordRef}
           returnKeyType="done"
           keyboardType="default"
-          selectionColor={Colors[theme]?.white}
+          cursorColor={Colors?.light?.green}
+          selectionColor={Colors?.light?.green}
           underlineColorAndroid="transparent"
           placeholder={Strings.Auth.hintPassword}
           style={styles.input}
